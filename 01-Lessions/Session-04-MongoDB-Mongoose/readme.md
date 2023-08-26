@@ -69,6 +69,8 @@ yarn add mongoose --save
 Đưa đoạn code này vào server.js
 
 ```js
+const mongoose = require('mongoose');
+
 /// Start the server
 const mongooseDbOptions = {
   autoIndex: true, // Don't build indexes
@@ -229,9 +231,10 @@ router.post('/users', authenticateToken, async (req, res,next) => {
     };
     // Lưu xuống database
     const user = await User.create(payload);
-    res.status(200).json({
+   
+   res.status(200).json({
     codeStatus: 200,
-    data: users
+    data: user
   });
     
   } catch (err) {
@@ -288,9 +291,9 @@ router.get('/users/:id', validateSchema(userValidation.getUserById), async (req,
       throw createError(404, 'User not found');
     }
 
-    res.status(200).json({
+   res.status(200).json({
       codeStatus: 200,
-      data: users
+      data: user
     });
   } catch (err) {
     next(err);
@@ -323,9 +326,9 @@ router.put('/users/:id', authenticateToken, async (req, res, next) => {
     })
     
 
-    res.status(200).json({
+   res.status(200).json({
       codeStatus: 200,
-      data: users
+      data: user
     });
 
     
@@ -354,7 +357,7 @@ router.delete('/users', authenticateToken, async (req, res, next) => {
     }
     res.status(200).json({
       codeStatus: 200,
-      data: users
+      data: user
     });
     
   } catch (err) {

@@ -3,13 +3,19 @@ const createError = require('http-errors');
 const router = express.Router();
 const validateSchema = require('../middleware/validateSchema.middleware')
 const userValidation = require('../validations/users.validation')
-
+const User = require("../models/user.model");
 const {authenticateToken} = require('../middleware/auth.middleware')
 
 // Get all users
 // localhost:8686/api/v1/users
 router.get('/users', async (req, res) => {
-  res.status(200).json(users);
+  const users = await User.find();
+  
+  res.status(200).json({
+    codeStatus: 200,
+    data: users
+  });
+
 });
 
 // Create a new user
@@ -18,26 +24,13 @@ router.post('/users', authenticateToken, async (req, res,next) => {
   console.log('createUser',req.body);
 
   try {
-
-    let randomInteger = Math.floor(Math.random() * 100) + 1;
-
-    let payload = {
-      id: randomInteger,
-      name: req.body.name,
-      email: req.body.email,
-      password: '123456',
-    };
-    console.log('<<< playload >>>',payload);
-
-    newUsers = [...users, payload];
-    //Ghi lại file
-    fs.writeFileSync(fileNameUsers, JSON.stringify(newUsers), function (err) {
-      if (err) throw err;
-      console.log('Saved!');
-    });
-
-    res.status(200).json(newUsers);
-
+    // Lưu xuống database
+    const user = await User.create(req.body);
+   
+   res.status(200).json({
+    codeStatus: 200,
+    data: user
+  });
     
   } catch (err) {
      next(err);
@@ -58,15 +51,20 @@ router.get('/users/:id', validateSchema(userValidation.getUserById), async (req,
       throw createError(400, 'Missing user ID');
     }
 
-    const user =  users.find((user) => user.id === parseInt(id));
+    const user = await User.findById(id);
 
-    console.log('<<<< user >>>',user, users)
+    console.log("<<< getUserById >>>", id, user);
+  
 
     if (!user) {
       throw createError(404, 'User not found');
     }
 
-    res.status(200).json(user);
+    res.status(200).json({
+      codeStatus: 200,
+      data: user
+    });
+
   } catch (err) {
     next(err);
   }
@@ -80,35 +78,18 @@ router.put('/users/:id', authenticateToken, async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    
-    /* Check exits user by id */
-    const user = users.find((user) => user.id === parseInt(id));
-
-    if (!user) {
-      throw createError(404, `User not found with ID ${id}`);
+    if (!id) {
+      throw createError(400, 'Missing user ID');
     }
-
-    /**
-     * Lặp qua mảng, tìm user có id để update
-     * trả lại mảng mới sau khi update
-     */
-    const newUsers = users.map((user) => {
-      if (user.id === parseInt(id)) {
-        if (req.body.email) user.email = req.body.email;
-        if (req.body.name) user.name = req.body.name;
-      }
-      return user;
+    
+    const user = await User.findByIdAndUpdate(id, req.body, {
+      new: true,
     });
 
-    console.log('after', newUsers);
-
-    //Ghi lại file
-    fs.writeFileSync(fileNameUsers, JSON.stringify(newUsers), function (err) {
-      if (err) throw err;
-      console.log('Saved!');
+    res.status(200).json({
+      codeStatus: 200,
+      data: user
     });
-
-    res.status(200).json(newUsers);
 
     
   } catch (err) {
@@ -124,29 +105,21 @@ router.delete('/users', authenticateToken, async (req, res, next) => {
   try {
     const { id } = req.body;
 
+    if (!id) {
+      throw createError(400, 'Missing user ID');
+    }
 
-    /* Check exits user by id */
-    const user = users.find((user) => user.id === parseInt(id));
+    const user = await User.findByIdAndDelete(id, {
+      new: true,
+    });
 
     if (!user) {
       throw createError(404, `User not found with ID ${id}`);
     }
-
-    /**
-     * Lặp qua mảng, tìm user có id để update
-     * trả lại mảng mới sau khi update
-     */
-    const newUsers = users.filter((user) => user.id !== parseInt(id));
-
-    console.log('after', newUsers);
-
-    //Ghi lại file
-    fs.writeFileSync(fileNameUsers, JSON.stringify(newUsers), function (err) {
-      if (err) throw err;
-      console.log('Saved!');
+    res.status(200).json({
+      codeStatus: 200,
+      data: user
     });
-
-    res.status(200).json(newUsers);
 
     
   } catch (err) {

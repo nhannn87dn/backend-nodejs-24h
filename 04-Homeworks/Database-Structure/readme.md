@@ -44,6 +44,7 @@
 | 6  | Address     | nvarchar(500) |      |     |         |            |
 | 7  | Birthday    | datetime      | yes  |     |         |            |
 | 8  | Password    | nvarchar(255) |      |     |         |            |
+| 9  | Photo       | nvarchar(255) | yes  |     |         |            |
 
 ## Products
 

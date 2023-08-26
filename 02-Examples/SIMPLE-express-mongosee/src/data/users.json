@@ -1,1 +1,17 @@
-[{"id":1,"password":"123","email":"upadtes@gmail.com","name":"Jonh 2"},{"id":2,"name":"Dara","email":"dara@gmail.com","password":"123"},{"id":3,"name":"Tim","email":"tim@gmail.com","password":"123"},{"id":84,"name":"Nguyen Van C","email":"nguyenvanc@example.com","password":"123456"}]
+[{
+    "_id": {
+      "$oid": "64e9797a019faf1aa22eb7e6"
+    },
+    "firstName": "Nancy",
+    "lastName": "Davolio 2",
+    "email": "nancyes@example.com",
+    "phoneNumber": "1234567899",
+    "password": "$2b$10$zbXmkYLoNFE8dT0gAZOvIO71mobG6VMidISN7m2O7ID2eZ.cH91Re",
+    "createdAt": {
+      "$date": "2023-08-26T04:03:06.477Z"
+    },
+    "updatedAt": {
+      "$date": "2023-08-26T04:03:06.477Z"
+    },
+    "__v": 0
+  }]
