@@ -1,8 +1,7 @@
 const jwt = require('jsonwebtoken');
 const {JWT_SECRET} =  process.env;
 const createError = require('http-errors');
-const sql = require('mssql');
-
+const { User } = require('../models');
 
 const authenticateToken = async (req, res, next) => {
     //Lấy thông tin authorization từ trong header request ra
@@ -23,13 +22,12 @@ const authenticateToken = async (req, res, next) => {
 
       //Kiểm tra xem có tồn tại user với userId lấy được từ token không
       //Để tránh token giả mạo
-      const user = [];
-  
+      const user = await User.findByPk(decoded._id);
       if (!user) {
         return next(createError(401, 'Unauthorized'));
       }
 
-      req.user = result.recordset;
+      req.user = user;
 
       next();
     } catch (err) {

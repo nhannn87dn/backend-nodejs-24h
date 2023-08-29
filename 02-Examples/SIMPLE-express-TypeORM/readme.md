@@ -15,3 +15,15 @@ step 2: Run App
 yarn dev
 
 ```
+
+## Example how to use TypeORM with JavaScript
+
+https://github.com/typeorm/javascript-example/blob/master/README.md
+
+## Example how to use TypeORM with JavaScript + Babel
+
+https://github.com/typeorm/babel-example/tree/master
+
+## Column types for mssql
+
+https://typeorm.io/entities#column-types-for-mssql

@@ -10,7 +10,7 @@ const dbConfig = require('../data/db');
 
 // Get all users
 // localhost:8686/api/v1/users
-router.get('/users', async (req, res) => {
+router.get('/users', async (req, res,next) => {
   try {
     const pool = await sql.connect(dbConfig);
     const result = await pool.request().query('SELECT * FROM employees');
