@@ -2,7 +2,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const app = require('./src/app');
 
-const { PORT } = process.env || 8686;
+const PORT = process.env.PORT || 8686;
 
 const id =  new mongoose.Types.ObjectId();
 
