@@ -4,15 +4,13 @@ const router = express.Router();
 const validateSchema = require('../middleware/validateSchema.middleware')
 const userValidation = require('../validations/users.validation')
 const {authenticateToken} = require('../middleware/auth.middleware')
-const sql = require('mssql');
-const dbConfig = require('../data/db');
-
-
+const {pool,sql} = require('../configs/dbPool');
+//const sql = require('mssql');
 // Get all users
 // localhost:8686/api/v1/users
 router.get('/users', async (req, res,next) => {
   try {
-    const pool = await sql.connect(dbConfig);
+    //const pool = await sql.connect(dbConfig);
     const result = await pool.request().query('SELECT * FROM employees');
     
     res.status(200).json({
@@ -20,7 +18,7 @@ router.get('/users', async (req, res,next) => {
       message: 'Success',
       data: result.recordset
     });
-    pool.close(); // Đóng kết nối
+    
   } catch (err) {
     next(err);
   }
@@ -35,7 +33,6 @@ router.post('/users', authenticateToken, async (req, res, next) => {
 
     const { firstName, lastName, email, numberPhone, birthday, address } = req.body;
 
-    const pool = await sql.connect(dbConfig);
     const result = await pool
       .request()
       .input('firstName', sql.NVarChar, firstName)
@@ -51,7 +48,7 @@ router.post('/users', authenticateToken, async (req, res, next) => {
       message: 'Success',
       data: result.rowsAffected[0]
     });
-    pool.close(); // Đóng kết nối
+    
   } catch (err) {
     next(err);
   }
@@ -62,7 +59,6 @@ router.post('/users', authenticateToken, async (req, res, next) => {
 router.get('/users/:id', validateSchema(userValidation.getUserById), async (req, res, next) => {
   try {
     const { id } = req.params;
-    const pool = await sql.connect(dbConfig);
     const result = await pool
       .request()
       .input('id', sql.Int, id)
@@ -77,7 +73,7 @@ router.get('/users/:id', validateSchema(userValidation.getUserById), async (req,
       message: 'Success',
       data: result.recordset[0]
     });
-    pool.close(); // Đóng kết nối
+    
   } catch (err) {
     next(err);
   }
@@ -89,7 +85,6 @@ router.put('/users/:id', authenticateToken, async (req, res, next) => {
   try {
     const { id } = req.params;
     const { firstName, lastName, email, numberPhone, birthday, address } = req.body;
-    const pool = await sql.connect(dbConfig);
     const request = pool.request();
     let updateQuery = 'UPDATE employees SET';
 
@@ -134,7 +129,7 @@ router.put('/users/:id', authenticateToken, async (req, res, next) => {
       message: 'Success',
       data: result.rowsAffected[0]
     });
-    pool.close(); // Đóng kết nối
+    
   } catch (err) {
     next(err);
   }
@@ -145,7 +140,6 @@ router.put('/users/:id', authenticateToken, async (req, res, next) => {
 router.delete('/users', authenticateToken, async (req, res, next) => {
   try {
     const { id } = req.body;
-    const pool = await sql.connect(dbConfig);
     const result = await pool
       .request()
       .input('id', sql.Int, id)
@@ -160,7 +154,7 @@ router.delete('/users', authenticateToken, async (req, res, next) => {
       message: 'Success',
       data: result.rowsAffected[0]
     });
-    pool.close(); // Đóng kết nối
+    
   } catch (err) {
     next(err);
   }

@@ -6,7 +6,7 @@ const authValidation = require('../validations/auth.validation')
 const jwt = require('jsonwebtoken');
 const {JWT_SECRET} =  process.env;
 const sql = require('mssql');
-const dbConfig = require('../data/db');
+const dbConfig = require('../configs/db');
 
 //http://localhost:8686/api/v1/auth/login
 router.post('/login', validateSchema(authValidation), async (req, res,next) => {

@@ -7,7 +7,7 @@ const userRoutes = require('./routes/user.route');
 const authRoute = require('./routes/auth.route')
 // Cấu hình body parser để đọc dữ liệu từ request body
 app.use(bodyParser.json());
-
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/auth', authRoute);

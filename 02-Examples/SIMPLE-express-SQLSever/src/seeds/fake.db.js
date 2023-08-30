@@ -1,5 +1,5 @@
 const faker = require('faker');
-const dbConfig = require('db');
+const dbConfig = require('../configs/db');
 const sql = require('mssql');
 
 

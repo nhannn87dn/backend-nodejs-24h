@@ -1,22 +1,14 @@
 const { Sequelize } = require('sequelize');
-const sequelize = new Sequelize({
-  dialect: 'mssql',
-  dialectOptions: {
-    options: {
-      encrypt: false, // for Microsoft Azure
-    },
-  },
-  host: 'NHAN2',
-  username: 'nhan',
-  password: '123456789',
-  database: 'myStore',
-});
+const dbConfig = require('../configs/db')
+const sequelize = new Sequelize(dbConfig);
 
 const models = {};
 
 models.Sequelize = Sequelize;
 models.sequelize = sequelize;
 
+//Kết nối các Models (Bảng) tại đây
 models.User = require('./user.model')(sequelize, Sequelize);
+//... thêm vào sau
 
 module.exports = models;

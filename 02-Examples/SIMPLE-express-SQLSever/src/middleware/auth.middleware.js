@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const {JWT_SECRET} =  process.env;
 const createError = require('http-errors');
 const sql = require('mssql');
-const dbConfig = require('../data/db');
+const dbConfig = require('../configs/db');
 
 const authenticateToken = async (req, res, next) => {
     //Lấy thông tin authorization từ trong header request ra
