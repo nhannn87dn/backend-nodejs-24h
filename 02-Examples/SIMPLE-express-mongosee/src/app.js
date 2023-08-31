@@ -4,11 +4,11 @@ const app = express();
 const usersRoute = require('./routes/users.route');
 const authRoute = require('./routes/auth.route')
 const FirstRouter = require('./routes/index');
-
+const path = require('path');
 
 // Calling the express.json() method for parsing
 app.use(express.json());
-
+app.use(express.static(path.join(__dirname, 'public')));
 
 //Các API sẽ bắt đầu bằng api
 //localhost:8686/api
