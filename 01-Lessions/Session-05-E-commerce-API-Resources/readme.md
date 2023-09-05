@@ -1,5 +1,10 @@
 # Session 5
 
+## Mocking Up CURD
+
+Tạo data TEST cho hệ thống CURD với thư viện <https://fakerjs.dev/>
+
+
 ## Upload hình ảnh - Multer
 
 Step 1: Cài đặt
