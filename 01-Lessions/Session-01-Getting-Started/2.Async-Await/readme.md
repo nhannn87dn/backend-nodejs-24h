@@ -61,5 +61,5 @@ Giải thích:
 **💘 KHẮC PHỤC**
 
 - Sử dụng [Callback](callback.html) để xử lý bất động bộ ở trên. Tuy nhiên cách này có thể gây ra một vấn đề gọi là `Callback Hell`
-- Sử dụng Promises:  [Xem ở đây](Promises.md)
-- Sử dụng Async / await ES8
+- Sử dụng Promises:  [Xem ở đây](Promises.md) - ES6
+- Sử dụng Async/await ES8
