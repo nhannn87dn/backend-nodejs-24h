@@ -29,6 +29,8 @@ ExpressJS Rất dễ học, chỉ cần bạn biết JavaScript, bạn sẽ khô
 yarn add express --save
 ```
 
+HOẶC cài theo mẫu sẵn: <https://expressjs.com/en/starter/generator.html>
+
 Tại thư mục dự án tạo một file app.js với nội dung sau
 
 ```js
