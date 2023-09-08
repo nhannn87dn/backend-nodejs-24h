@@ -26,6 +26,11 @@ Trong bài học này chúng ta tìm hiểu các vấn đề sau:
 ## 💛 Adding Performance Monitoring
 
 
+## Deploying to Render
+
+https://render.com/
+
+
 Thông tin thêm:
 
 ## 💛 Upload hình ảnh - Multer
