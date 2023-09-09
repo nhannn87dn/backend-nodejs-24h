@@ -3,3 +3,8 @@ GET http://localhost:3000/products HTTP/1.11
 ###
 
 POST http://localhost:3000/products HTTP/1.1
+
+{
+    "name": "Iphone 14",
+    "price": 300
+}
