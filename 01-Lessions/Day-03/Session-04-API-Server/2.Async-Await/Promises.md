@@ -35,42 +35,6 @@ myPromise.catch((error) => {
 3. Trạng thái của Promise: Promise có ba trạng thái: "pending" (đang chờ), "fulfilled" (hoàn thành) và "rejected" (bị từ chối). Khi một Promise được tạo, nó bắt đầu ở trạng thái "pending". Khi xử lý thành công, Promise chuyển sang trạng thái "fulfilled" và gọi hàm callback được đăng ký bằng `.then()`. Trong trường hợp xảy ra lỗi hoặc không thành công, Promise chuyển sang trạng thái "rejected" và gọi hàm callback được đăng ký bằng `.catch()`.
 
 
-Trước tiên ta di tìm hiểu VÌ SAO LẠI CẦN ĐẾN Promises thông qua một ví dụ:
-
-```js
-//Mô phỏng trả về một mảng users từ Database
-function getUsers() {
-  let users = [];
-  //Sử dụng setTimeout để Delay 3 giây
-  setTimeout(() => {
-    users = [
-      { username: 'john', email: 'john@test.com' },
-      { username: 'jane', email: 'jane@test.com' },
-    ];
-  }, 3000);
-  return users;
-}
-// Định nghĩa hàm Tìm user có tên john
-function findUser(username) {
-  const users = getUsers(); 
-  /* dựa trên kết quả lấy được, đi tìm user có tên */
-  const user = users.find((user) => user.username === username);
-  return user;
-}
-//Gọi hàm 
-console.log(findUser('john'));
-
-//Kết quả
-undefined
-
-```
-
-Giải thích:
-
-- Bản chất các tiến trình của Javascript là đồng bộ
-- Tại hàm findUser, lấy mảng users và tìm user xảy ra đồng thời. Chứ nó không đợi tìm được users rồi mới đi tìm kiếm người tên john
-- Chính vì vậy kết quả là undefined
-
 
 Khắc phục bằng cách sử dụng Promise
 

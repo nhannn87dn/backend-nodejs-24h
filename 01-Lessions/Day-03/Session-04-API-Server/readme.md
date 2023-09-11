@@ -15,27 +15,32 @@ Trong bài học này chúng ta tìm hiểu các vấn đề sau:
 
 ## 💛 Introducing the Event Loop
 
-Event Loop là một khái niệm quan trọng trong Node.js. Nó là một cơ chế xử lý các tác vụ không đồng bộ (asynchronous) trong môi trường đơn luồng của Node.js. Event Loop cho phép Node.js xử lý đồng thời nhiều yêu cầu I/O (như đọc/ghi file, truy vấn cơ sở dữ liệu, gửi yêu cầu HTTP) mà không bị chờ đợi (blocking).
+Event loop trong Node.js là một thành phần quan trọng trong kiến trúc single-threaded (đơn luồng) của nó. Nó cho phép Node.js xử lý nhiều yêu cầu đồng thời mà không cần tạo ra các luồng bổ sung.
 
-Khi một yêu cầu I/O không đồng bộ được gọi, Node.js không chờ đợi kết quả trả về. Thay vào đó, nó tiếp tục thực hiện các tác vụ khác. Khi I/O hoàn thành (ví dụ: dữ liệu đã được đọc từ file), một sự kiện (event) được tạo ra và đưa vào một hàng đợi sự kiện.
+Trong Node.js, mã JavaScript chạy trong một luồng duy nhất, còn được gọi là luồng chính (main thread). Tuy nhiên, để xử lý các yêu cầu I/O không đồng bộ, như đọc và ghi vào tệp, gọi API mạng hoặc truy vấn cơ sở dữ liệu, Node.js sử dụng mô hình sự kiện và non-blocking I/O.
+
+
 
 ![event loop](../../Day-01/Session-01-Basic-of-Node.Js/img/node-flow.png)
 
-Event Loop là trái tim của Node.js, nó lặp đi lặp lại để kiểm tra hàng đợi sự kiện. Nhiệm vụ của nó là xử lý các sự kiện trong hàng đợi theo trình tự và gọi các hàm xử lý (callback) tương ứng. Điều này cho phép Node.js thực hiện các tác vụ không đồng bộ mà không chặn việc thực thi các tác vụ khác.
 
-Event Loop trong Node.js bao gồm các pha sau:
 
-1. **Poll**: Event Loop bắt đầu bằng việc kiểm tra hàng đợi sự kiện (event queue). Nếu hàng đợi sự kiện không rỗng, Event Loop chuyển sang pha tiếp theo. Nếu hàng đợi sự kiện rỗng, Event Loop chờ đợi sự kiện mới được thêm vào hoặc tiếp tục kiểm tra các hẹn giờ (timers).
+Client gửi các REQUEST đến SERVER để tương tác với ứng dụng web. Các REQUESTs này có thể là Blocking hoặc Non-Blocking
 
-2. **Timers**: Kiểm tra và gọi các hàm callback được đặt bởi `setTimeout()` và `setInterval()`. Nếu các hẹn giờ đã đến hạn, hàm callback tương ứng được đẩy vào hàng đợi sự kiện.
+- Truy vấn dữ liệu
+- Xóa dữ liệu
+- Cập nhật dữ liệu
 
-3. **Pending Callbacks**: Xử lý các hàm callback từ I/O hoặc các tác vụ không đồng bộ khác mà đã hoàn thành. Các hàm callback này được đưa vào hàng đợi sự kiện để được thực thi.
+Node.JS tiếp nhận các Request gửi đến và thêm chúng vào hàng đợi Event Queue
 
-4. **Idle, Prepare**: Các pha này không được sử dụng trong phiên bản hiện tại của Node.js và đang được dùng cho mục đích tương lai.
+Sau đó các yêu cầu (Request) này được xử lý lần lượt thông qua Event Loop.
 
-5. **Poll**: Kiểm tra lại hàng đợi sự kiện. Nếu hàng đợi sự kiện không rỗng, Event Loop chuyển sang pha tiếp theo. Nếu hàng đợi sự kiện rỗng, Event Loop chờ đợi sự kiện mới hoặc tiếp tục kiểm tra các hẹn giờ.
+Event loop là một vòng lặp vô tận để kiểm tra các sự kiện và thực hiện các callback tương ứng. Nó cũng điều khiển việc thực hiện các tác vụ khác trong chương trình Node.js, như đọc và ghi từ các I/O, gửi và nhận dữ liệu từ mạng, v.v.
 
-Event Loop trong Node.js giúp tận dụng tối đa sức mạnh của môi trường đơn luồng. Nó cho phép xử lý đồng thời hàng nghìn kết nối mạng mà không cần tạo ra một luồng cho mỗi kết nối. Điều này giúp Node.js trở thành một nền tảng phù hợp cho ứng dụng mạng có khả năng mở rộng cao.
+Có hai loại sự kiện mà event loop xử lý: sự kiện đồng bộ và sự kiện bất đồng bộ
+
+- Sự kiện đồng bộ được xử lý ngay lập tức trong vòng lặp event loop
+- Sự kiện bất đồng bộ được đưa vào một hàng đợi và xử lý sau khi các sự kiện đồng bộ đã được xử lý xong
 
 ## 💛 Understanding callbacks and Error-First Pattern
 
