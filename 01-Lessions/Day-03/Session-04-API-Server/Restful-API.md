@@ -1,90 +1,15 @@
 # Folder structure using Express and Node.Js
 
-
-**Dự Án E-Commerce**
-
----
-
-Tạo một thư mục dự án ví dụ: e-commerce-restful-apis
-
-Khởi tạo dự án
-
-```bash
-npm init
-# Hoặc
-yarn init
-```
-
 ## 💛 Xây dựng cấu trúc thư mục
-
-Đối với ExpressJs chưa có một quy chuẩn nào để tạo ra một cấu trúc dự án CHUẨN bắt buộc, dưới đây là đơn giản bạn có thể tham khảo
-
-Dành cho người mới học, đơn giản, dể tiếp cận để biết được cách tạp ra một API.
-
-```code
-e-commerce-restful-apis/
-├─ node_modules/
-├─ public/
-├─ src/
-│  ├─ models/
-│  ├─ helpers/
-│  ├─ validations/
-│  ├─ routes/
-│  ├─ app.js
-├─ .env
-├─ server.js
-├─ .gitignore
-├─ package.json
-├─ README.md
-```
-
 
 ### 1: Khởi tạo dự án
 
-- Tạo thư mục dự án
-- Tạo server Express src/app.js
+- Tạo thư mục dự án sử dụng: express-generator
 
 ```bash
-npm i express --save
+npx express-generator
 ```
 
-```js
-const express = require('express');
-const app = express();
-
-
-// Calling the express.json() method for parsing
-app.use(express.json());
-
-
-module.exports = app;
-```
-
-- Tạo file server.js là entry point dự án
-
-```bash
-npm i dotenv --save
-```
-
-```js
-require('dotenv').config();
-const app = require('./src/app');
-
-const { PORT } = process.env || 8686;
-
-
-
-const server = app.listen(PORT, () => {
-  console.log(`WSV start with port ${PORT}`);
-});
-```
-
-- Tạo biến môi trường .env
-
-```bash
-NODE_ENV= development
-PORT= 8686
-```
 
 - Cấu hình lại package.json
 
@@ -104,7 +29,7 @@ nodemon là một tool giúp server tự khởi động lại khi thay đổi co
 Start ứng dụng
 
 ```bash
-yarn run dev
+yarn dev
 #or
 npm run dev
 ```
@@ -489,11 +414,11 @@ const userValidation = require('../validations/users.validation')
 
 router.get('/users/:id', async (req, res,next) => {
   
-}
+})
 //Thành như sau
 router.get('/users/:id', validateSchema(userValidation.getUserById), async (req, res,next) => {
 
-}
+})
 ```
 
 `validateSchema` là một middleware nên bạn phải ĐẶT TRƯỚC phần xử lý request /response

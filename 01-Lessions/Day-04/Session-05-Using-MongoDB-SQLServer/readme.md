@@ -25,6 +25,29 @@ Thư viện SQL Server cho NodeJS
 yarn add mssql
 ```
 
+#### 🌻Tạo một Database trong SQL Server
+
+Tạo table User/Employees 
+
+```SQL
+CREATE DATABASE AptechTEST;
+GO
+USE AptechTEST;
+GO
+CREATE TABLE User (
+  id INT PRIMARY KEY IDENTITY,
+  firstName NVARCHAR(20) NOT NULL,
+  lastName NVARCHAR(20) NOT NULL,
+  numberPhone NVARCHAR(120) NOT NULL,
+  email NVARCHAR(50) NOT NULL,
+  address NVARCHAR(50) NULL,
+  birthday DATE NULL,
+  password NVARCHAR(255) NOT NULL
+);
+GO
+
+```
+
 #### 🌻 Setup kết nối
 
 Trong folder config tạo file dbPool.js tạo kết nối và tái sử dụng kết nối rãnh
@@ -37,7 +60,7 @@ const dbConfig = {
   user: 'nhan',
   password: '123456789',
   server: 'NHAN2', // Thay thế bằng địa chỉ server của bạn
-  database: 'myStore',
+  database: 'AptechTEST',
   options: {
     encrypt: false, // Tùy chọn bảo mật (tuỳ theo cấu hình của SQL Server)
   },
@@ -99,9 +122,21 @@ router.get('/users', async (req, res,next) => {
 
 });
 ```
+
+
+Tạo đầy đủ CURD API với User/Employees với SQL Server
+
+- GET : api/v1/users
+- GET : api/v1/users/:id
+- POST : api/v1/users/:id
+- PUT : api/v1/users/:id
+- DELETE: api/v1/users/:id
+
+
 ####  🌻 Data Types
 
 Xem: https://github.com/tediousjs/node-mssql#data-types
+
 
 ### 🔶 Kết nối với SQL Server với ORM Tools
 
@@ -123,7 +158,7 @@ npm install --save sequelize
 yarn add sequelize
 ```
 
-Cài đặt Drivers cho loại DATABASE
+Cài đặt Driver cho loại DATABASE
 
 ```bash
 npm install --save tedious # Microsoft SQL Server
@@ -230,7 +265,7 @@ const dbConfig = {
     port: 1433,
     username: 'nhan',
     password: '123456789',
-    database: 'myStore',
+    database: 'myStore', //Bạn phải tạo Database trước
     dialectOptions: {
         options: {
           encrypt: false, 
@@ -240,6 +275,9 @@ const dbConfig = {
 
 module.exports = dbConfig;
 ```
+
+Lưu ý bạn phải tạo Database trước và không cần tạo bảng, Kết nối thành công thì code sẽ tự động tạo các table dựa trên các Models mà bạn đã cấu hình.
+
 
 file server.js sửa lại như sau
 
