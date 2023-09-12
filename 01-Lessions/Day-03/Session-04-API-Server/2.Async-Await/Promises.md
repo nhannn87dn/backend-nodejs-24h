@@ -40,8 +40,7 @@ Khắc phục bằng cách sử dụng Promise
 
 ```js
 
-function getUsers() {
-  return new Promise((resolve, reject) => {
+const getUsers =  new Promise((resolve, reject) => {
     setTimeout(() => {
       const users = [
         { username: 'john', email: 'john@test.com' },
@@ -50,7 +49,7 @@ function getUsers() {
       resolve(users); // Trả về mảng users
     }, 3000);
   });
-}
+
 
 ```
 
@@ -72,8 +71,7 @@ getUsers
 })
 .finally(() => {
     console.log("finally Done !");
-})
-;
+});
 
 ```
 
@@ -84,7 +82,7 @@ Dưới đây là ví dụ đã được chuyển thành Promise:
 ```js
 
 function findUser(username) {
-  return getUsers()
+  return getUsers
     .then((users) => {
       const user = users.find((user) => user.username === username);
       return user;
