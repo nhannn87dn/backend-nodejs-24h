@@ -33,17 +33,16 @@ Chúng ta làm lại ví dụ cũ bằng async/await
 
 ```js
 //Mô phỏng trả về một mảng users từ Database
-function getUsers() {
-  let users = [];
-  //Sử dụng setTimeout để Delay 3 giây
+
+const getUsers = new Promise((resolve, reject) => {
   setTimeout(() => {
-    users = [
+    const users = [
       { username: 'john', email: 'john@test.com' },
       { username: 'jane', email: 'jane@test.com' },
     ];
+    resolve(users); // Trả về mảng users
   }, 3000);
-  return users;
-}
+});
 // Thêm async ở trước từ khóa function
 async function findUser(username) {
     //thêm awai đứng trước hàm getUsers 
@@ -54,7 +53,9 @@ async function findUser(username) {
   return user;
 }
 //Gọi hàm 
-console.log(findUser('john'));
+
+findUser('john')
+.then((user) =>console.log(user))
 
 //Kết quả
 { username: 'john', email: 'john@test.com' }
