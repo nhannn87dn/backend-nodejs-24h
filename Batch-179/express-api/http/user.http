@@ -1,0 +1,22 @@
+POST http://localhost:3000/users HTTP/1.1
+content-type: application/json
+
+{
+   "id": 4,
+    "name": "peter4",
+    "email": "peter4@gmail.com"
+}
+
+###
+//Sua Use co iD = 3
+PUT http://localhost:3000/users/3 HTTP/1.1
+content-type: application/json
+
+{
+    "name": "peter3",
+    "email": "peter3@gmail.com"
+}
+
+###
+//Xóa USer iD = 3
+DELETE  http://localhost:3000/users/3 HTTP/1.1
