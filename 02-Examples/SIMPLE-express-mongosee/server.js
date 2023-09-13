@@ -24,7 +24,7 @@ mongoose
     console.log('Connected to MongoDB');
     //should listen app here
     const server = app.listen(PORT, () => {
-      console.log(`WSV start with port ${PORT} - Link: localhost:8686/api`);
+      console.log(`WSV start with port ${PORT} - Link: http://localhost:8686/api`);
     });
     
   })

@@ -38,13 +38,6 @@ You can download a free MongoDB database at https://www.mongodb.com.
 
 > <https://www.mongodb.com/try/download/community>
 
-Install (MacOS):
-
-> <https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x/>
-
-Install (Windows):
-
-> <https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-windows/>
 
 Compass Tool: Công cụ để quản lý MoogoDB bằng giao diện đồ họa
 
@@ -107,6 +100,8 @@ Data Model: <https://www.mongodb.com/docs/manual/applications/data-models/>
 
 ## 💛 Using MoongoDB
 
+Chi tiết xem: <https://www.w3schools.com/nodejs/nodejs_mongodb.asp>
+
 Để kết nối thư viện MongoDB với Express.js, bạn cần thực hiện các bước sau:
 
 1. Cài đặt MongoDB và thư viện MongoDB trong dự án của bạn bằng cách chạy lệnh sau trong terminal:
@@ -114,54 +109,30 @@ Data Model: <https://www.mongodb.com/docs/manual/applications/data-models/>
 ```bash
 npm install mongodb
 ```
+2. Tại các Routes
 
-2. Trong tệp `server.js` hoặc tệp chính của ứng dụng Express.js của bạn, thêm mã sau để kết nối với MongoDB:
+Ví dụ:
 
-   ```js
-   const express = require('express');
-   const app = express();
-   const MongoClient = require('mongodb').MongoClient;
 
-   const url = 'mongodb://localhost:27017'; // Địa chỉ và cổng MongoDB
-   const dbName = 'mydatabase'; // Tên cơ sở dữ liệu của bạn
+```js
 
-   MongoClient.connect(url, { useUnifiedTopology: true }, (err, client) => {
-     if (err) {
-       console.error('Lỗi kết nối đến MongoDB:', err);
-       return;
-     }
+const MongoClient = require('mongodb').MongoClient;
+const url = "mongodb://localhost:27017/myStore";
 
-     const db = client.db(dbName);
-     console.log('Đã kết nối thành công đến MongoDB');
-
-     // Đoạn mã xử lý và tương tác với cơ sở dữ liệu MongoDB sẽ ở đây
-
-     // Khởi động máy chủ
-     app.listen(3000, () => {
-       console.log('Máy chủ Express đã được khởi động');
-     });
-   });
-   ```
-
-   Trong ví dụ trên, chúng ta đã sử dụng MongoClient để kết nối đến MongoDB qua URL và tên cơ sở dữ liệu đã chỉ định. Để kết nối thành công, MongoDB phải đang chạy trên máy chủ localhost tại cổng mặc định 27017.
-
-3. Bạn có thể sử dụng đối tượng `db` để thực hiện các tác vụ tương tác với cơ sở dữ liệu MongoDB trong ứng dụng của mình. Ví dụ, bạn có thể thực hiện các truy vấn, thêm, sửa đổi, xóa dữ liệu trong MongoDB bên trong phạm vi khối mã `MongoClient.connect`.
-
-   Ví dụ:
-
-   ```js
-   // Ví dụ truy vấn và lấy dữ liệu từ MongoDB
-   app.get('/users', (req, res) => {
-     const collection = db.collection('users');
-     collection.find().toArray((err, users) => {
-       if (err) {
-         console.error('Lỗi truy vấn từ MongoDB:', err);
-         return;
-       }
-       res.json(users);
-     });
-   });
-   ```
+// Ví dụ truy vấn và lấy dữ liệu từ MongoDB
+router.get('/', (req, res, next) => {
+     //Kết nối đến server MongoDB
+     MongoClient.connect(url, function(err, db) {
+      if (err) next(err);
+      const dbo = db.db("myStore"); //chọn database
+      dbo.collection("users").findOne({}, function(err, result) {
+        if (err) next(err);
+        res.json(result);
+        db.close();//đóng kết nối
+      });
+    });
+});
+```
 
    Trong ví dụ trên, chúng ta đã truy vấn tất cả các tài khoản người dùng từ bảng `users` trong cơ sở dữ liệu và trả về kết quả dưới dạng JSON.
 

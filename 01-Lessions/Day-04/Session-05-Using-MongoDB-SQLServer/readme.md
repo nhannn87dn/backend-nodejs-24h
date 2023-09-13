@@ -423,3 +423,8 @@ Hiểu thế nào là khái nhiệm Auto-increment Counter (Tự động tăng)
 ## 💛 Creating Version 2 REST APIs
 
 Cách tạo ra phiên bản API version 2
+
+
+## 💛 Mocking Up CRUD
+
+Tạo data TEST cho hệ thống CURD với thư viện <https://fakerjs.dev/>
