@@ -8,50 +8,74 @@ Giải thích cách sử dụng Promise:
 
 ```javascript
 const myPromise = new Promise((resolve, reject) => {
-  // Thực hiện các công việc không đồng bộ
-  // Nếu thành công, gọi resolve(value)
-  // Nếu thất bại, gọi reject(error)
+  // Xử lý logic bất đồng bộ
+  //Trạng thái lúc này: pending
+  
+  const result = true;
+  
+  if (result) {/* Hoàn thành thành công == fulfilled */
+    resolve(value); // Giải quyết Promise với giá trị thành công
+  } else {
+    reject(error); // Từ chối Promise và trả về lỗi == rejected
+  }
 });
+
 ```
 
 2. Xử lý kết quả của Promise: Bạn có thể sử dụng các phương thức `.then()` và `.catch()` để xử lý kết quả của Promise.
 
+```js
+
+myPromise
+  .then((value) => {
+    // Xử lý giá trị thành công
+  })
+  .catch((error) => {
+    // Xử lý lỗi
+  });
+```
 - Phương thức `.then()` được sử dụng để đăng ký một hàm callback để xử lý kết quả thành công của Promise. Đối số của hàm callback là giá trị được trả về từ `resolve()`.
 
-```javascript
-myPromise.then((value) => {
-  // Xử lý giá trị thành công
-});
-```
 
 - Phương thức `.catch()` được sử dụng để đăng ký một hàm callback để xử lý lỗi hoặc thất bại của Promise. Đối số của hàm callback là giá trị được truyền từ `reject()`.
 
-```javascript
-myPromise.catch((error) => {
-  // Xử lý lỗi hoặc thất bại
-});
-```
 
 3. Trạng thái của Promise: Promise có ba trạng thái: "pending" (đang chờ), "fulfilled" (hoàn thành) và "rejected" (bị từ chối). Khi một Promise được tạo, nó bắt đầu ở trạng thái "pending". Khi xử lý thành công, Promise chuyển sang trạng thái "fulfilled" và gọi hàm callback được đăng ký bằng `.then()`. Trong trường hợp xảy ra lỗi hoặc không thành công, Promise chuyển sang trạng thái "rejected" và gọi hàm callback được đăng ký bằng `.catch()`.
 
 
-
-Khắc phục bằng cách sử dụng Promise
+Ví dụ:
 
 ```js
+const isSuccess = true;
 
-const getUsers =  new Promise((resolve, reject) => {
+const getUsers = () => {
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
       const users = [
         { username: 'john', email: 'john@test.com' },
         { username: 'jane', email: 'jane@test.com' },
       ];
-      resolve(users); // Trả về mảng users
-    }, 3000);
+      if (isSuccess) {
+        resolve(users); // Promise thành công
+      } else {
+        reject('Lỗi: Không thể tải dữ liệu'); // Promise thất bại
+      }
+    }, 2000);
   });
+};
 
-
+getUsers()
+  .then((data) => {
+    console.log(data); // Xử lý kết quả thành công
+  })
+  .catch((error) => {
+    console.log(error); // Xử lý lỗi
+  })
+  .finally(() => {
+    console.log("finally Done !");
+});
 ```
+
 
 
 Promise có các phương thức để xử lý kết quả khi nó được giải quyết hoặc từ chối. Các phương thức quan trọng nhất là:
@@ -60,29 +84,31 @@ Promise có các phương thức để xử lý kết quả khi nó được gi�
 - .catch(): Được sử dụng để xử lý lỗi hoặc trạng thái từ chối của một Promise.
 - .finally(): Được sử dụng để thực hiện các công việc sau khi một Promise đã hoàn thành bất kể kết quả là thành công hay thất bại.
 
-```js
-
-getUsers
-.then((value) => {
-    console.log("Success:", value);
-})
-.catch((error) => {
-    console.log("Error:", error);
-})
-.finally(() => {
-    console.log("finally Done !");
-});
-
-```
-
 
 Dưới đây là ví dụ đã được chuyển thành Promise:
 
 
 ```js
+const isSuccess = true;
+
+const getUsers = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const users = [
+        { username: 'john', email: 'john@test.com' },
+        { username: 'jane', email: 'jane@test.com' },
+      ];
+      if (isSuccess) {
+        resolve(users); // Promise thành công
+      } else {
+        reject('Lỗi: Không thể tải dữ liệu'); // Promise thất bại
+      }
+    }, 2000);
+  });
+};
 
 function findUser(username) {
-  return getUsers
+  return getUsers()
     .then((users) => {
       const user = users.find((user) => user.username === username);
       return user;
@@ -91,6 +117,10 @@ function findUser(username) {
       console.error('Error:', error);
     });
 }
+/*
+  findUser return về một Promise nên bản thân nó biến thành một Promise.
+  Vì vậy bạn có thể sử dụng then, catch
+*/
 
 findUser('john')
 .then((user) => {

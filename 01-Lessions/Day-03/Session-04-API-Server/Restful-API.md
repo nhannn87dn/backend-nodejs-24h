@@ -1,6 +1,26 @@
-# Folder structure using Express and Node.Js
+# Restful API with Node.Js and ExpressJS
 
-## 💛 Xây dựng cấu trúc thư mục
+## 💛 RESTful API là gì ?
+
+RESTful API là một loại giao diện lập trình ứng dụng (API) được thiết kế theo các nguyên tắc của kiến trúc REST (Representational State Transfer). REST là một kiểu kiến trúc phần mềm dựa trên giao thức HTTP và các tiêu chuẩn web liên quan khác.
+
+RESTful API cho phép các ứng dụng giao tiếp và trao đổi dữ liệu với nhau qua mạng. Nó sử dụng các phương thức HTTP như GET, POST, PUT và DELETE để thực hiện các hoạt động CRUD (Create, Read, Update, Delete) trên dữ liệu.
+
+| Method    | Semantics     |
+|-----------|---------------|
+| POST      | Create        |
+| GET       | Read/Retrieve |
+| PUT/PATCH | Update        |
+| DELETE    | Delete        |
+| --------  | --------      |
+
+Các RESTful API được thiết kế để hoạt động dựa trên nguyên tắc "stateless" (không lưu trạng thái). Điều này có nghĩa là mỗi yêu cầu từ client đến server phải chứa tất cả thông tin cần thiết để server hiểu và xử lý yêu cầu, không phụ thuộc vào bất kỳ trạng thái trước đó nào. Server không lưu trạng thái của client giữa các yêu cầu.
+
+Một RESTful API thường sử dụng các đường dẫn URL để xác định tài nguyên và các phương thức HTTP để xác định hành động trên tài nguyên đó. Các dữ liệu thường được truyền qua các định dạng như JSON hoặc XML.
+
+RESTful API đã trở thành một phương pháp phổ biến để xây dựng các dịch vụ web và ứng dụng di động, vì nó đơn giản, linh hoạt và dễ dùng.
+
+## 💛 Xây dựng cấu trúc RESTful API
 
 ### 1: Khởi tạo dự án
 
@@ -322,7 +342,6 @@ app.use('/api/v1', usersRoute);
 
 - REST Client (Huachao Mao) Extension
 - PostMan: <https://www.postman.com/downloads/>
-
 
 ## 💛 Validate Requests
 

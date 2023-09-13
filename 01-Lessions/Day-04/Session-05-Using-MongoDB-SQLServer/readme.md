@@ -138,6 +138,86 @@ Tạo đầy đủ CURD API với User/Employees với SQL Server
 Xem: https://github.com/tediousjs/node-mssql#data-types
 
 
+## 💛 PUT and PATH
+
+Trong RESTful API, PUT và PATCH là hai phương thức HTTP khác nhau được sử dụng để cập nhật tài nguyên. 
+
+Có rất nhiều tranh luận nên dùng PUT hay PATH
+
+|                    | PUT | PATCH |
+|--------------------|-----|-------|
+| Partial Updates    | ❌   | ✔️     |
+| Bandwidth          | ⬆️   | ⬇️     |
+| Creates a resource | ✔️   | ❌     |
+| Idempotent         | ✔️   | ❌     |
+| Safe               | ❌   | ❌     |
+
+Tham khảo: <https://josipmisko.com/posts/patch-vs-put-rest-api>
+
+
+Dưới đây là sự khác biệt giữa PUT và PATCH:
+
+1. PUT (Cập nhật toàn bộ tài nguyên):
+   - Phương thức PUT được sử dụng để cập nhật toàn bộ tài nguyên hoặc tạo mới nếu tài nguyên chưa tồn tại.
+   - Khi sử dụng PUT, bạn gửi một yêu cầu cập nhật hoàn toàn và ghi đè lên tài nguyên hiện có. Điều này có nghĩa là tất cả các trường dữ liệu của tài nguyên sẽ được thay thế bằng dữ liệu mới được gửi.
+   - Nếu bạn chỉ gửi một phần của tài nguyên trong yêu cầu PUT, những phần không được gửi sẽ bị xóa hoặc trở thành giá trị mặc định (nếu có) tuỳ thuộc vào ứng dụng.
+
+Ví dụ có một record với thông tin sau:
+
+```json
+
+{
+    "id": 1,
+    "name": "John Smith",
+    "age": 25,
+    "skill": "Java, PHP"
+}
+
+```
+Bây giờ muốn bổ sung thêm skill cho id : 1
+
+Request: PUT /users/1
+
+Request payload:
+
+```json
+"skill": "Java, PHP, Python, JavaScript"
+```
+
+Bây giờ mình kiểm tra lại xem thông tin John đã được cập nhật chưa.
+
+Request: GET /user/1
+Response:
+
+```json
+"skill": "Java, PHP, Python, JavaScript"
+```
+
+Cập nhật rồi, nhưng trường name, và age đã biến mất
+
+2. PATCH (Cập nhật một phần tài nguyên):
+   - Phương thức PATCH được sử dụng để cập nhật một phần của tài nguyên.
+   - Khi sử dụng PATCH, bạn chỉ cần gửi các trường dữ liệu cần cập nhật trong yêu cầu. Các trường dữ liệu khác của tài nguyên sẽ không bị thay đổi.
+   - Phương thức PATCH cho phép bạn thực hiện các thay đổi nhỏ mà không cần gửi lại toàn bộ tài nguyên. Điều này hữu ích khi bạn chỉ muốn cập nhật một số trường dữ liệu mà không ảnh hưởng đến các trường khác.
+
+
+Cũng với ví dụ trên thực hiện với PATH thì sau khi cập nhật bạn nhật được response
+
+```json
+
+{
+    "id": 1,
+    "name": "John Smith",
+    "age": 25,
+    "skill": "Java, PHP, Python, JavaScript"
+}
+
+```
+
+==> PATCH chỉ cập nhật những field được yêu cầu thay vì cập nhật toàn bộ.
+
+
+
 ### 🔶 Kết nối với SQL Server với ORM Tools
 
 #### 🌻 ORM là gì ?
