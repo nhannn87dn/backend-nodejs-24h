@@ -46,6 +46,14 @@ CREATE TABLE User (
 );
 GO
 
+INSERT INTO Users (firstName, lastName, numberPhone, email, address, birthday, password)
+VALUES
+  ('John', 'Doe', '1234567890', 'john.doe@example.com', '123 Main St', '1990-01-01', 'password1'),
+  ('Jane', 'Smith', '0987654321', 'jane.smith@example.com', '456 Elm St', '1995-02-15', 'password2'),
+  ('Michael', 'Johnson', '9876543210', 'michael.johnson@example.com', '789 Oak Ave', '1985-07-10', 'password3'),
+  ('Emily', 'Williams', '0123456789', 'emily.williams@example.com', '321 Pine Blvd', '1992-12-05', 'password4'),
+  ('David', 'Brown', '5678901234', 'david.brown@example.com', '654 Cedar Ln', '1998-09-20', 'password5');
+GO
 ```
 
 #### 🌻 Setup kết nối
