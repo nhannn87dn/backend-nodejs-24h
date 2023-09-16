@@ -215,6 +215,8 @@ router.delete("/:id", async (req, res, next) => {
 });
 ```
 
+Xem thêm: Danh sách Collection Methods:  <https://www.mongodb.com/docs/manual/reference/method/js-collection/>
+
 Kết luận: Cứ mỗi API chúng ta phải tạo ra một kết nối, xử lý dữ liệu, trả về response rồi đóng kết nối.
 
 Công việc đó cứ lặp đi lặp lại ở tất các các API
