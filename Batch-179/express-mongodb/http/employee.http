@@ -1,0 +1,40 @@
+### Lay ALl
+GET http://localhost:3000/employees
+
+###
+
+GET http://localhost:3000/employees/65059350b3d574437b00a9f3
+
+
+###
+
+GET http://localhost:3000/employees/phone/Hai
+
+
+### Them moi
+
+POST http://localhost:3000/employees
+content-type: application/json
+
+{
+    "firstName": "Tuan",
+    "lastName": "Vo",
+    "email": "votuan@gmail.com",
+    "phoneNumber": "9988776655",
+    "address": "38 yen bai"
+}
+
+### Update
+
+
+PUT  http://localhost:3000/employees/650599a2e930b97c3020d0d6
+content-type: application/json
+
+{
+    "firstName": "Tuan v2"
+    
+}
+
+###
+
+DELETE  http://localhost:3000/employees/65059350b3d574437b00a9f7

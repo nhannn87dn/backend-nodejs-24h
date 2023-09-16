@@ -1,0 +1,20 @@
+
+POST http://localhost:9000/categories
+content-type: application/json
+
+{
+    "name": "ip",
+    "description": "Top 500 dien thoai gia re"
+}
+
+
+### Lay All
+
+GET http://localhost:9000/categories?page=2
+
+
+
+### Lay dụa vao ID
+
+GET http://localhost:9000/categories/1212
+
