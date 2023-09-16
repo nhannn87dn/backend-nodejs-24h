@@ -27,14 +27,14 @@ yarn add mssql
 
 #### 🌻Tạo một Database trong SQL Server
 
-Tạo table User/Employees 
+Tạo table Users/Employees 
 
 ```SQL
 CREATE DATABASE AptechTEST;
 GO
 USE AptechTEST;
 GO
-CREATE TABLE User (
+CREATE TABLE Users (
   id INT PRIMARY KEY IDENTITY,
   firstName NVARCHAR(20) NOT NULL,
   lastName NVARCHAR(20) NOT NULL,
@@ -116,7 +116,7 @@ router.get('/users', async (req, res,next) => {
     /**
      * Sử dụng cú pháp SQL server thuần tùy ở đây
      */
-    const result = await pool.request().query('SELECT * FROM employees');
+    const result = await pool.request().query('SELECT * FROM users');
     
     res.status(200).json({
       codeStatus: 200,
@@ -132,7 +132,7 @@ router.get('/users', async (req, res,next) => {
 ```
 
 
-Tạo đầy đủ CURD API với User/Employees với SQL Server
+Tạo đầy đủ CURD API với Users/Employees với SQL Server
 
 - GET : api/v1/users
 - GET : api/v1/users/:id
@@ -336,7 +336,7 @@ models.sequelize = sequelize;
 
 //Kết nối các Models (Bảng) tại đây
 models.User = require('./user.model')(sequelize, Sequelize);
-//... thêm vào sau
+//... thêm vào sau các Model khác
 
 module.exports = models;
 
@@ -423,6 +423,8 @@ yarn dev
 ```
 
 Check xem trong Database server có được đồng bộ không, nếu chưa tạo tables thì sẽ được tạo mới.
+
+Xem ví dụ: 02-Examples\SIMPLE-express-SQLSever-Sequelizes
 
 ## 💛 Implementing Auto-increment Counter
 

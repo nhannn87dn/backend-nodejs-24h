@@ -1,91 +1,55 @@
 var express = require('express');
 var router = express.Router();
-let users = require('../../data/users.json');
-const fs = require('fs');
 
-/* GET users listing. */
-const fileName = "./data/users.json"
+const {pool,sql} = require('../../db');
+
 // GET /users
 //Hiểu ngầm định là res All Users
-router.get('/', function(req, res, next) {
+router.get('/', async function(req, res, next) {
   
-  res.json({users, version: 'v2'});
-});
-// GET /users/:id 
-//Hiểu là tìm/lấy 1 user có id 
-router.get('/:id', function(req, res, next) {
-  const id = req.params.id;
-  const user = users.find(user => user.id == id)
-
-  res.json(user);
-});
-
-// POST localhost:3000/users
-//Thêm mới 1 user
-router.post('/', function(req, res, next) {
-  //nhận được data từ client gửi lên qua Body
-  console.log("body",req.body);
-  users.push(req.body);
-  //Lưu vào nơi mình muốn
-  fs.writeFile(fileName, JSON.stringify(users), function (err) {
-    if (err) throw err;
-    console.log('Saved!');
-  });
-
-  res.json(users);
-});
-
-// PUT localhost:3000/users
-//Sửa/cập nhật một 1 user dựa vào id của nó
-router.put('/:id', function(req, res, next) {
-  // const id = req.params.id;
-  const {id} = req.params;
-  //nhận được data từ client gửi lên qua Body
-  console.log("body",req.body);
-  
-  /**
-     * Lặp qua mảng, tìm user có id để update
-     * trả lại mảng mới sau khi update
+  try {
+    /**
+     * Sử dụng cú pháp SQL server thuần tùy ở đây
      */
-  const newUsers = users.map((user) => {
-    if (user.id === parseInt(id)) {
-      if (req.body.email) user.email = req.body.email;
-      if (req.body.name) user.name = req.body.name;
-    }
-    return user;
-  });
-
-
-  //Lưu vào nơi mình muốn
-  fs.writeFile(fileName, JSON.stringify(newUsers), function (err) {
-    if (err) throw err;
-    console.log('Saved!');
-  });
-
-  res.json(newUsers);
+    const result = await pool.request().query('SELECT * FROM employees');
+    
+    res.status(200).json({
+      codeStatus: 200,
+      message: 'Success',
+      data: result.recordset
+    });
+    
+  } catch (err) {
+    next(err);
+  }
 });
 
-
-// DELETE localhost:3000/users
-//Xóa một 1 user dựa vào id của nó
-router.delete('/:id', function(req, res, next) {
-  const {id} = req.params;
-  /**
-     * Lặp qua mảng, tìm user có id để update
-     * trả lại mảng mới sau khi update
-     */
-  const newUsers = users.filter((user) => user.id !== parseInt(id));
-
+router.post('/', async function(req, res, next) {
   
-  //Lưu vào nơi mình muốn
-  fs.writeFile(fileName, JSON.stringify(newUsers), function (err) {
-    if (err) throw err;
-    console.log('Saved!');
-  });
+  try {
 
-  res.json(newUsers);
+    const { firstName, lastName, email, numberPhone, birthday, address } = req.body;
 
-})
+    const result = await pool
+      .request()
+      .input('firstName', sql.NVarChar, firstName)
+      .input('lastName', sql.NVarChar, lastName)
+      .input('email', sql.NVarChar, email)
+      .input('numberPhone', sql.NVarChar, numberPhone)
+      .input('birthday', sql.NVarChar, birthday)
+      .input('address', sql.NVarChar, address)
+      .query('INSERT INTO employees (firstName, lastName, email, numberPhone, birthday, address) VALUES (@firstName, @lastName, @email, @numberPhone, @birthday, @address)');
+    
+    res.status(200).json({
+      codeStatus: 200,
+      message: 'Success',
+      data: result.rowsAffected[0]
+    });
+    
+  } catch (err) {
+    next(err);
+  }
+});
 
 module.exports = router;
 

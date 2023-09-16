@@ -20,3 +20,17 @@ content-type: application/json
 ###
 //Xóa USer iD = 3
 DELETE  http://localhost:3000/users/3 HTTP/1.1
+
+###
+POST  http://localhost:3000/v2/users HTTP/1.1
+content-type: application/json
+
+{
+"firstName": "Johnv2",
+"lastName": "Doev2",
+"email": "johndoev2@example.com",
+"numberPhone": "123456789",
+"birthday": "1990-01-01",
+"address": "123 Main St",
+"password": "password1"
+}

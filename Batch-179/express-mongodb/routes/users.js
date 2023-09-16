@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { CONNECTION_STRING, DATABASE_NAME } = require("../constants/dbSettings");
+const { CONNECTION_STRING, DATABASE_NAME } = require("../constants/dbConfig");
 const { MongoClient,ObjectId } = require("mongodb");
 
 /* get All Users */
