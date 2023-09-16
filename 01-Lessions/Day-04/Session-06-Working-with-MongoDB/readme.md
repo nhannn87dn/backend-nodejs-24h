@@ -109,34 +109,117 @@ Chi tiết xem: <https://www.w3schools.com/nodejs/nodejs_mongodb.asp>
 ```bash
 npm install mongodb
 ```
-2. Tại các Routes
+2. Kết nối express với mongodb
 
-Ví dụ:
+Tạo file constants/dbSetting.js
 
+```js
+module.exports = {
+    CONNECTION_STRING: 'mongodb://127.0.0.1:27017/AptechTest',
+    DATABASE_NAME: 'AptechTest',
+  };
+```
+
+Với Database bạn phải tạo trước trong MongoPass
+
+Tại một routes bất kỳ như routes/users.js
+
+```js
+const express = require("express");
+const router = express.Router();
+const { CONNECTION_STRING, DATABASE_NAME } = require("../constants/dbSettings");
+const { MongoClient,ObjectId } = require("mongodb");
+
+/* get All Users */
+router.get("/", async (req, res, next) => {
+  try {
+    const client = await MongoClient.connect(CONNECTION_STRING);
+    const db = client.db(DATABASE_NAME);
+    const users = await db.collection("users").find({}).toArray();
+    client.close();
+    res.status(200).json(users);
+  } catch (error) {
+    next(error)
+  }
+});
+module.exports = router;
+```
+
+Trong ví dụ trên, chúng ta đã truy vấn tất cả các tài khoản người dùng từ bảng `users` trong cơ sở dữ liệu và trả về kết quả dưới dạng JSON.
+
+Chúng ta có các API khác như sau:
 
 ```js
 
-const MongoClient = require('mongodb').MongoClient;
-const url = "mongodb://localhost:27017/myStore";
+/* Find a user by ID */
+router.get("/:id", async (req, res, next) => {
+    try {
+      const client = await MongoClient.connect(CONNECTION_STRING);
+      const db = client.db(DATABASE_NAME);
+      const {id} = req.params;
+      console.log(id);
+      const query = { _id: new ObjectId(id) };
+      const user = await db.collection("users").findOne(query);
+      client.close();
+      res.status(200).json(user);
+    } catch (error) {
+      next(error)
+    }
+});
 
-// Ví dụ truy vấn và lấy dữ liệu từ MongoDB
-router.get('/', (req, res, next) => {
-     //Kết nối đến server MongoDB
-     MongoClient.connect(url, function(err, db) {
-      if (err) next(err);
-      const dbo = db.db("myStore"); //chọn database
-      dbo.collection("users").findOne({}, function(err, result) {
-        if (err) next(err);
-        res.json(result);
-        db.close();//đóng kết nối
-      });
-    });
+/* Thêm mới 1 User */
+router.post("/", async (req, res, next) => {
+  try {
+    const client = await MongoClient.connect(CONNECTION_STRING);
+    const db = client.db(DATABASE_NAME);
+    const newUser = req.body; // Assume the new user data is in the request body
+    const result = await db.collection("users").insertOne(newUser);
+    client.close();
+    res.status(201).json(result.ops[0]);
+  } catch (error) {
+    next(error);
+  }
+});
+
+/* Update user */
+
+router.put("/:id", async (req, res, next) => {
+  try {
+    const client = await MongoClient.connect(CONNECTION_STRING);
+    const db = client.db(DATABASE_NAME);
+    const { id } = req.params;
+    const updatedUser = req.body; // Assume the updated user data is in the request body
+    const query = { _id: new ObjectId(id) };
+    const update = { $set: updatedUser };
+    const result = await db.collection("users").updateOne(query, update);
+    client.close();
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+});
+
+/* Xóa 1 user */
+router.delete("/:id", async (req, res, next) => {
+  try {
+    const client = await MongoClient.connect(CONNECTION_STRING);
+    const db = client.db(DATABASE_NAME);
+    const { id } = req.params;
+    const query = { _id: new ObjectId(id) };
+    const result = await db.collection("users").deleteOne(query);
+    client.close();
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
 });
 ```
 
-   Trong ví dụ trên, chúng ta đã truy vấn tất cả các tài khoản người dùng từ bảng `users` trong cơ sở dữ liệu và trả về kết quả dưới dạng JSON.
+Kết luận: Cứ mỗi API chúng ta phải tạo ra một kết nối, xử lý dữ liệu, trả về response rồi đóng kết nối.
 
+Công việc đó cứ lặp đi lặp lại ở tất các các API
 
+Thay vì thì chúng ta có thư viện bổ trợ, giúp code gọn hơn, dễ dùng hơn là Mongoose
 
 ## 💛 Using Mongoose 
 
