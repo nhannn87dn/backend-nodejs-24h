@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Employee = require("../models/employees.model");
 var createError = require("http-errors");
+const {authenticateToken} =  require('../middleware/auth.middleware');
 
 /* Get All Employees */
 router.get("/", async function (req, res, next) {
@@ -18,7 +19,8 @@ router.get("/", async function (req, res, next) {
 });
 
 /* Get  Employee by ID */
-router.get("/:id", async function (req, res, next) {
+router.get("/:id", authenticateToken, async function (req, res, next) {
+  // console.log("authorization",req.headers['authorization']);
   try {
     const { id } = req.params;
     console.log("<<=== 🚀 id ===>>", id);

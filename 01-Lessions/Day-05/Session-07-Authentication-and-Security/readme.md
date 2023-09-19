@@ -238,6 +238,47 @@ Dùng nó khi bạn làm ứng dụng web với Node.js, còn nếu làm API th�
 - cookie-session: <https://expressjs.com/en/resources/middleware/cookie-session.html?
 - express-session: <https://expressjs.com/en/resources/middleware/session.html>
 
+
+```bash
+yarn add express-session
+```
+
+Sau đó tại file app.js
+
+```js
+var session = require('express-session')
+//Thêm đoạn này vào, cấu hình cho session
+app.use(session({
+  secret: 'mysecretkey',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false } //true https, false http
+}));
+```
+Cách sử dụng:
+
+```js
+
+/* GET home page. */
+router.get('/', function(req, res, next) {
+  //Đăng ký một session ở route này
+  req.session.views = 1;
+
+  res.json({version: '1.0'})
+});
+
+
+router.get('/getsession', function(req, res, next) {
+  //Sang bên này bạn nhận được session như sau
+  console.log(req.session.views);
+  
+  res.json({page: 'getsession'})
+});
+```
+
+Chi tiết xem: <https://expressjs.com/en/resources/middleware/session.html>
+
+
 ## 💛 Bycrypt
 
 Cách sử dụng thư viện Bycrypt để mã hõa password
