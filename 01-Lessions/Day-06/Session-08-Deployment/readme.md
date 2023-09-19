@@ -100,7 +100,7 @@ const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'ecshopvietnamese@gmail.com',
-    pass: 'bhvksgtrvzrsukqk'
+    pass: 'dsdsd' //mật khẩu ứng dụng gmail
   }
 });
 
