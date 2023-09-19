@@ -31,6 +31,21 @@ Trong bài học này chúng ta tìm hiểu các vấn đề sau:
 https://render.com/
 
 
+Step1: Đăng ký tài khoản github, up code lên github
+
+Step2: Tạo tài khoản render, bằng cách liên kết với github
+
+Step3: Login vào Dashboard của render.com
+
+Tại mục **Web Services** --> Chọn **New Web Services**
+
+Bước tiếp: Chọn **Build and deploy from a Git repository** --> Next
+
+Tại mục **Public Git repository** cuối trang, dán link repo vào --> Continue
+
+Bước tiếp: đặt tên cho web server , còn lại mọi thông tin để mặc định --> Create web server
+
+
 Thông tin thêm:
 
 ## 💛 Upload hình ảnh - Multer
