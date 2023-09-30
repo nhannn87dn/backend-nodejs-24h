@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-const mongooseLeanVirtuals = require('mongoose-lean-virtuals');
+// const mongooseLeanVirtuals = require('mongoose-lean-virtuals');
 
 
 //Tạo Schema
@@ -52,7 +52,7 @@ const productSchema = new Schema(
     //Tự động sinh ra 2 trường createAt, updateAt
     { timestamps: true }
 );
-productSchema.plugin(mongooseLeanVirtuals);
+// productSchema.plugin(mongooseLeanVirtuals);
 // Virtual with Populate
 productSchema.virtual('supplier', {
     ref: 'Supplier',

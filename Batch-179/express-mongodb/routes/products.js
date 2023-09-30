@@ -23,7 +23,7 @@ router.get("/:id", async function (req, res, next) {
     console.log("<<=== 🚀 id ===>>", id);
     const employee = await Product.findById(id)
     .populate('category')
-    .populate('supplier').lean({ virtuals: true });
+    .populate('supplier');
     console.log(employee);
     /* Kiểm tra có tồn tại reacord với id đó ko */
     if (!employee) {
